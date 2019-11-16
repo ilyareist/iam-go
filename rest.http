@@ -1,0 +1,12 @@
+POST http://localhost:8080/token
+content-type: application/json
+
+{
+    "name": "jon",
+    "password": "password"
+}
+
+####
+
+GET http://localhost:8080/pub
+content-type: application/json
