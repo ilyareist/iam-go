@@ -15,7 +15,7 @@ func main() {
 	h := &handler{}
 	e.POST("/token", h.login)
 
-	e.GET("/pub", h.sharePub)
+	//e.GET("/pub", h.sharePub)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
