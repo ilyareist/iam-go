@@ -13,9 +13,9 @@ func main() {
 	})
 
 	h := &handler{}
-	e.POST("/token", h.login)
+	e.POST("/jwt", h.login)
 
-	//e.GET("/pub", h.sharePub)
+	e.GET("/jwk", h.sharePub)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

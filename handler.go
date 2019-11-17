@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -33,9 +32,6 @@ func (h *handler) login(c echo.Context) error {
 		privateKeyByte, _ := ioutil.ReadFile("./keys/demo.rsa")
 		privateKey, err = jwt.ParseRSAPrivateKeyFromPEM(privateKeyByte)
 
-		publicKeyByte, _ := ioutil.ReadFile("./keys/demo.rsa.pub")
-		publicKey, _ := jwt.ParseRSAPublicKeyFromPEM(publicKeyByte)
-
 		token := jwt.New(jwt.GetSigningMethod("RS256"))
 
 		claims := token.Claims.(jwt.MapClaims)
@@ -44,13 +40,6 @@ func (h *handler) login(c echo.Context) error {
 		claims["iss"] = "testing@secure.istio.io"
 		claims["admin"] = true
 		claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-
-		key, _ := jwk.New(publicKey)
-
-		jsonbuf, _ := json.MarshalIndent(key, "", "  ")
-
-
-		os.Stdout.Write(jsonbuf)
 
 		t, _ := token.SignedString(privateKey)
 
@@ -61,7 +50,13 @@ func (h *handler) login(c echo.Context) error {
 	return echo.ErrUnauthorized
 }
 
-func (h *handler) sharePub(c echo.Context) {
-	//pubKey:="-----BEGINPUBLICKEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2jHRPcMcMFyj5a9dbDYtSdDmlviEsXvj9bC8FCaNCtHq44hXvw3uFuAZ9hUlYA+yo6i+5IXbFO0RNmMVLATmrr0R2XpPkXry4k4x5b8lh2HJkLzwYbioWu4ijAo92C7uxVMNq99y6YprcrwsRyKApMv4C9WewUOObgoe/6QfYN5Bhen5kWrEgLmyt8cPkPSTK54A4Ki3+i58qnlH4h8GtD9b03VYeeV4cbcqyuQPaiZZF5q7VRI/XkzJcr/IdzTg9Pt0bEKthyvao0NfEPxN8++u8dq8Uz1W/uJL7dpV3r2nCK/dc1hahMIrjqH96VtL6LYGJogJ5ykrSWm8/KHz+QIDAQAB-----ENDPUBLICKEY-----"
-	//return c.JSON(http.StatusOK, map[string])
+func (h *handler) sharePub(c echo.Context) error{
+	publicKeyByte, _ := ioutil.ReadFile("./keys/demo.rsa.pub")
+	publicKey, _ := jwt.ParseRSAPublicKeyFromPEM(publicKeyByte)
+	key, _ := jwk.New(publicKey)
+	jsonbuf, _ := json.MarshalIndent(key, "", "  ")
+	return c.JSON(http.StatusOK, map[string]string{
+		"token": string(jsonbuf),
+	})
+
 }
