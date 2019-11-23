@@ -50,13 +50,26 @@ func (h *handler) login(c echo.Context) error {
 	return echo.ErrUnauthorized
 }
 
-func (h *handler) sharePub(c echo.Context) error{
+func (h *handler) sharePub(c echo.Context) error {
 	publicKeyByte, _ := ioutil.ReadFile("./keys/demo.rsa.pub")
 	publicKey, _ := jwt.ParseRSAPublicKeyFromPEM(publicKeyByte)
 	key, _ := jwk.New(publicKey)
 	jsonbuf, _ := json.MarshalIndent(key, "", "  ")
-	return c.JSON(http.StatusOK, map[string]string{
-		"token": string(jsonbuf),
-	})
+	type Jwk struct {
+		E   string `json:"e"`
+		Kty string `json:"kty"`
+		N   string `json:"n"`
+	}
+	var jwk Jwk
+	json.Unmarshal([]byte(jsonbuf), &jwk)
 
+	type Jwks struct {
+		Keys []Jwk `json:"keys"`
+	}
+
+	sliceJwk := []Jwk{jwk}
+
+	jwks := Jwks{sliceJwk}
+
+	return c.JSON(http.StatusOK, jwks)
 }
