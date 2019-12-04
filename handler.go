@@ -36,7 +36,7 @@ func (h *handler) login(c echo.Context) error {
 
 		claims := token.Claims.(jwt.MapClaims)
 		claims["name"] = "Jon Doe"
-		claims["role"] = "admin"
+		claims["group"] = "customer"
 		claims["iss"] = "testing@secure.istio.io"
 		claims["admin"] = true
 		claims["exp"] = time.Now().Add(time.Hour * 72).Unix()

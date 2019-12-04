@@ -13,6 +13,13 @@ content-type: application/json
 
 ###
 
+GET http://192.168.0.107/1
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTc1NzUxODY5LCJncm91cCI6ImN1c3RvbWVyIiwiaXNzIjoidGVzdGluZ0BzZWN1cmUuaXN0aW8uaW8iLCJuYW1lIjoiSm9uIERvZSJ9.deT2clOd4KjmcNobWcDlvI67szt8oEhjZTcwGv9O_a6XLsKsh8QRaVdObZNkpFodWUMKmLFIB2EbVBkpmCQ6kW6DzQpGqlRye59me_Ki814e3nh6m7KwUsEzh4PJJyTcctBU3kRsEx1II8HOu43TuK0KQzuEPv_dVLSpaU7r1XrB71ifDhlgJF8kX2EFWiNlJ0z9c9V3NmrmJY9VY0TLBZZGkw3wh-KTP1Yst3gQ5Dn3Cnn7XEavD5DFL54ZVl4nuCM_woLYW-zNg7nTFgFhd7RFn1oP0lnmfBI1OtAkzUuXGlMLkg-B47hJy8hjTQ7bq8NQ-5UB7mzWDzpU_jg3Ig
+
+###
+GET http://192.168.22.224/1
+
+###
 GET https://backoffice.exness.net
 autotest: true
 
